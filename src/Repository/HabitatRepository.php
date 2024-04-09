@@ -35,9 +35,12 @@ class HabitatRepository extends ServiceEntityRepository
       */
     public function findWithPriceLowerThan(int $price): array
     {
-        return $this->createQueryBuilder('p')
-        ->where('p.price < :price')
-        ->orderBy('p.price', 'ASC')
+        return $this->createQueryBuilder('h')
+        ->select('h','c')
+        ->where('h.price < :price')
+        ->leftJoin('h.category', 'c')
+        ->orderBy('h.price', 'ASC')
+        //->andWhere('c.id = 1')
         ->setMaxResults(100)
         ->setParameter('price',$price)
         ->getQuery()

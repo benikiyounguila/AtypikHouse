@@ -7,14 +7,16 @@ use App\Validator\BanWord;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 
 #[ORM\Entity(repositoryClass: HabitatRepository::class)]
 #[UniqueEntity('title')]
 #[UniqueEntity('slug')]
+#[Vich\Uploadable()]
 class Habitat
 {
     #[ORM\Id]
@@ -56,12 +58,19 @@ class Habitat
 
     #[ORM\Column(length: 255)]
     #[Assert\Length(min: 5)]
-   // #[Assert\Regex(' /^[a-z0-9]+(?:-[a-z0-9]+)*$/ ', message: "ce slug est invalide")]
     #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', message: "Le slug ne peut contenir que des lettres minuscules, des chiffres et des tirets")]
     private string $slug = '';
 
-    #[ORM\Column(length: 255)]
-    private string $file = '';
+    #[ORM\Column(length: 255, nullable:true)]
+    private ?string $file = null;
+
+    #[Vich\UploadableField(mapping: 'habitats', fileNameProperty: 'file' )]
+    #[Assert\Image()]
+    private ?File $thumbnailFile = null;
+
+
+    #[ORM\ManyToOne(inversedBy: 'habitats', cascade: ['persist'])]
+    private ?Category $category = null;
 
     public function getId(): ?int
     {
@@ -176,14 +185,39 @@ class Habitat
         return $this;
     }
 
-    public function getFile(): string
+    public function getFile(): ?string
     {
         return $this->file;
     }
 
-    public function setFile(string $file): static
+    public function setFile(?string $file): static
     {
         $this->file = $file;
+
+        return $this;
+    }
+
+    
+    public function getThumbnailFile(): ?File
+    {
+        return $this->thumbnailFile;
+    }
+
+    public function setThumbnailFile(?File $thumbnailFile): static
+    {
+        $this->thumbnailFile = $thumbnailFile;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }

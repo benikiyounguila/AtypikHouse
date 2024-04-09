@@ -1,0 +1,18 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title "Habitat : " ~ habitat.title  %}
+
+
+{% block body %}
+
+   <h1>{{habitat.title }}</h1>
+
+ <img src="{{ vich_uploader_asset (habitat, 'thumbnailFile') }}" alt="">
+
+   {{ form (form) }}
+
+
+ 
+
+ {% endblock %}
+ 

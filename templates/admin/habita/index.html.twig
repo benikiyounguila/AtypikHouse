@@ -1,0 +1,65 @@
+{# {% extends 'admin/admin.html.twig' %}
+ 
+{% block title "Tous les habitats" %}
+
+
+{% block body %}
+ <p> <a class="btn btn-primary btn-sm" href="{{ url('admin.habitat.create') }}">Ajouter un habitat</a></p>
+
+<table class="table">
+<thead>
+  <tr>
+    <th>Titre</th>
+    <th>Catégorie</th>
+    <th style="width: 200px">Actions</th>
+  </tr>
+</thead>
+<tbody>
+{% for habitat in habitats %}
+  <tr>
+    <td> <a href="{{ url('admin.habitat.edit', {id: habitat.id}) }}">{{habitat.title}}</a></td>
+    <td>  {{habitat.category.name | default('') }}  </td>
+    <td> 
+    <div class="d-flex gap-1">
+    <a class="btn btn-primary btn-sm" href="{{ url('admin.habitat.edit', {id: habitat.id}) }}">Editer</a>
+    <form action="{{ path('admin.habitat.delete', {id: habitat.id}) }}" method="post">
+      <input type="hidden" name="_method" value="DELETE">
+      <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+    </form>
+    </div>
+    </td>
+  </tr>
+   {% endfor %}
+<tbody>
+</table>
+{% endblock %} #}
+
+
+
+{% extends 'admin/admin.html.twig' %}
+
+{% block title "Tous les habitats" %}
+
+{% block body %}
+ <p> <a class="btn btn-primary btn-sm" href="{{ url('admin.habitat.create') }}">Ajouter un habitat</a></p>
+<div class="row">
+    {% for habitat in habitats %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ habitat.title }}</h5>
+                <p class="card-text">{{ habitat.category.name | default('') }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="{{ path('admin.habitat.edit', {id: habitat.id}) }}" class="btn btn-primary">Editer</a>
+                    <form action="{{ path('admin.habitat.delete', {id: habitat.id}) }}" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+

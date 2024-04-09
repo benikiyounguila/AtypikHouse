@@ -1,4 +1,4 @@
-{% extends 'habita/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title "Habitat : " ~ habitat.title  %}
 
@@ -7,12 +7,6 @@
 
    <h1>{{habitat.title }}</h1>
 
-  
-
-   {{ form (form) }}
-
-
- 
-
- {% endblock %}
+   <p>{{habitat.content | nl2br}}</p>
+{% endblock %}
  
