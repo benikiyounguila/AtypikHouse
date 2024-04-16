@@ -17,13 +17,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 #[Route("/admin/habitats", name: 'admin.habitat.')]
+#[IsGranted('ROLE_ADMIN')]
 class HabitaController extends AbstractController
 {
 
-    
-    
     #[Route('/', name: 'index')]
-    #[IsGranted('ROLE_USER')]
       public function index(HabitatRepository $repository, CategoryRepository $categoryRepository, EntityManagerInterface $em): Response
      {  
         // $this->denyAccessUnlessGranted ('ROLE_USER');
