@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Habitat;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @extends ServiceEntityRepository<Habitat>
@@ -21,6 +23,18 @@ class HabitatRepository extends ServiceEntityRepository
         parent::__construct($registry, Habitat::class);
     }
 
+    public function paginateHabitat(int $page, int $limit):Paginator
+    {
+
+        return new Paginator($this
+        ->createQueryBuilder('h')
+        ->setFirstResult(($page - 1) * $limit)
+        ->setMaxResults($limit)
+        ->getQuery()
+        ->setHint(Paginator::HINT_ENABLE_DISTINCT,false),
+        false);
+
+    }
 
     public function findTotalPrice():int
     {

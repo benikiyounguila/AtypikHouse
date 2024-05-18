@@ -20,15 +20,21 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 #[IsGranted('ROLE_ADMIN')]
 class HabitaController extends AbstractController
 {
-
     #[Route('/', name: 'index')]
-      public function index(HabitatRepository $repository, CategoryRepository $categoryRepository, EntityManagerInterface $em): Response
+      public function index(HabitatRepository $repository,Request $request): Response
      {  
-        // $this->denyAccessUnlessGranted ('ROLE_USER');
-        $habitats = $repository->findWithPriceLowerThan(3000); 
+        // $habitats = $repository->findWithPriceLowerThan(3000); 
+        $page = $request->query->getInt('page', 1);
+        $limit=2;
+        $habitats = $repository->paginateHabitat($page, $limit); 
+        $maxPage = ceil($habitats->count() / $limit);
+
+        
         
                  return $this->render('admin/habita/index.html.twig', [
-            'habitats'=>$habitats
+            'habitats' => $habitats,
+            'maxPage'  => $maxPage,
+            'page' => $page
         ]);
     }
     
