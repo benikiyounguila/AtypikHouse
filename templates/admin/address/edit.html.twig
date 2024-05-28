@@ -1,0 +1,14 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title "Modifier l'adresse : " ~ address.rue  %}
+
+
+{% block body %}
+
+   <h1>Modifier l'addresse : {{address.rue }}</h1>
+
+   {{ form (form) }}
+
+
+ {% endblock %}
+ 

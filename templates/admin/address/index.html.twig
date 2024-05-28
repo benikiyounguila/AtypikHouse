@@ -1,0 +1,33 @@
+{% extends 'admin/admin.html.twig' %}
+ 
+{% block title "Adresse" %}
+
+
+{% block body %}
+ <p> <a class="btn btn-primary btn-sm" href="{{ url('admin.address.create') }}">Ajouter une addresse</a></p>
+
+<table class="table">
+<thead>
+  <tr>
+    <th>Nom</th>
+    <th style="width: 200px">Actions</th>
+  </tr>
+</thead>
+<tbody>
+{% for address in addresses %}
+  <tr>
+    <td> <a href="{{ url('admin.address.edit', {id: address.id}) }}">{{address.rue}}</a></td>
+    <td>
+    <div class="d-flex gap-1">
+    <a class="btn btn-primary btn-sm" href="{{ url('admin.address.edit', {id: address.id}) }}">Editer</a>
+    <form action="{{ path('admin.address.delete', {id: address.id}) }}" method="post">
+      <input type="hidden" name="_method" value="DELETE">
+      <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+    </form>
+    </div>
+    </td>
+  </tr>
+   {% endfor %}
+<tbody>
+</table>
+{% endblock %}

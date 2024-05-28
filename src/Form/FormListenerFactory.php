@@ -27,6 +27,24 @@ public function __construct(private SluggerInterface $slugger) {
         }; 
     }
 
+
+ public function Slug(string $fields): callable
+{
+    return function (PreSubmitEvent $event) use ($fields) {
+        $data = $event->getData();
+        if (empty($data['slug'])) {
+            $slugger = new AsciiSlugger();
+            $slugParts = [];
+            foreach (explode(',', $fields) as $field) {
+                $slugParts[] = $data[$field];
+            }
+            $data['slug'] = strtolower($this->slugger->slug(implode('-', $slugParts)));
+            $event->setData($data);
+        }
+    };
+}
+
+
     public function timestamps():callable{
 
         return function (PostSubmitEvent $event){
