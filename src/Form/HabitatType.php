@@ -35,11 +35,20 @@ public function __construct(private FormListenerFactory $Listenerfactory) {
             ->add('slug', TextType::class,
             [ 'required' => false,
             ])
-            ->add('category', EntityType::class, [ 
+            // ->add('category', EntityType::class, [ 
+            //     'class' => Category::class,
+            //     'choice_label' => 'name',
+            // // 'expanded' => true
+            // ])
+
+            ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'name',
-            // 'expanded' => true
+                'choice_label' => function ($category) {
+                    return $category->getName() . ' (' . $category->getSlug() . ')';
+                },
+                // 'expanded' => true
             ])
+            
             ->add('content', TextareaType::class, [
                 'empty_data' => ''
             ])

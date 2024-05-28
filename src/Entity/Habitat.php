@@ -221,4 +221,16 @@ class Habitat
 
         return $this;
     }
+
+    // public function getAddress(): ?Address
+    // {
+    //     return $this->address;
+    // }
+
+    // public function setAddress(?Address $address): static
+    // {
+    //     $this->address = $address;
+
+    //     return $this;
+    // }
 }
